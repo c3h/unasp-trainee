@@ -1,0 +1,270 @@
+﻿@using NorthWindMVC.Models
+@model Order
+@{
+    ViewBag.Title = "Create";
+    var employees = (List<Employee>)ViewBag.Employees;
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h4>Order</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="OrderID">OrderID</label>
+                <input type="text" id="OrderID" name="OrderID" readonly />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CustomerID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="CompanyName">CompanyName</label>
+                <input type="text" id="CompanyName" name="CompanyName" />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="ContactName">ContactName</label>
+                <input type="text" id="ContactName" name="ContactName" class="form-control" />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label" })
+                <select id="EmployeeID" name="EmployeeID" class="form-control"></select>
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.RequiredDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.RequiredDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequiredDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShippedDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShippedDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShippedDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipVia, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipVia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipVia, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.Freight, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Freight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Freight, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.ShipName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipAddress, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipAddress, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipCity, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipCity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipCity, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipRegion, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipRegion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipRegion, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipPostalCode, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipPostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipPostalCode, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                @Html.LabelFor(model => model.ShipCountry, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShipCountry, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShipCountry, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-lg-3 col-md-3">
+                <input type="button" value="Criar Pedido" onclick="CriarPedido()" class="btn btn-default" />
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="ProductID">ProductID</label>
+                <select id="ProductID" name="ProductID" class="form-control"></select>
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="UnitPrice">UnitPrice</label>
+                <input type="text" id="UnitPrice" name="UnitPrice" class="form-control" />
+            </div>
+
+            <div class="form-group col-lg-3 col-md-3">
+                <label class="control-label" for="Qty">Qty</label>
+                <input type="text" id="Qty" name="Qty" class="form-control" />
+            </div>
+            <div class="form-group col-lg-3 col-md-3">
+                <input id="btnInserirItem" type="button" value="Inserir" onclick="InserirItem()" class="btn btn-default" />
+            </div>
+
+        </div>
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+
+    function preencheCustomer() {
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "@Url.Action("ObterCustomer", "Customer")",
+            data: { customerID: $("#CustomerID").val() },
+            success: function (retorno) {
+                if (retorno != null) {
+                    $("#CompanyName").val(retorno.CompanyName);
+                    $("#ContactName").val(retorno.ContactName);
+                }
+                else
+                    alert("Registro nao encontrado");
+            },
+            error: function (retorno) {
+                alert("erro");
+            }
+        });
+    }
+
+
+    function AutoCompleteCustomers() {
+        $("#CustomerID").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                // Fazer a chamada para o AJAX
+                $.getJSON("@Url.Action("ObterCustomers","Customer")"
+                    + "?filtro=" + $('#CustomerID').val(),
+                    request, function (data) {
+                        response(data);
+                    });
+            },
+            close: function (event, ui) {
+                preencheCustomer();
+            }
+        });
+    }
+
+    function CriarPedido() {
+        // Criando o objeto que será enviado
+        var order = {
+            CustomerID: $("#CustomerID").val(),
+            EmployeeID: $("#EmployeeID").val(),
+            OrderDate: $("#OrderDate").val(),
+            RequiredDate: $("#RequiredDate").val(),
+            ShippedDate: $("#ShippedDate").val(),
+            ShipVia: $("#ShipVia").val(),
+            Freight: $("#Freight").val(),
+            ShipName: $("#ShipName").val(),
+            ShipAddress: $("#ShipAddress").val(),
+            ShipCity: $("#ShipCity").val(),
+            ShipRegion: $("#ShipRegion").val(),
+            ShipPostalCode: $("#ShipPostalCode").val(),
+            ShipCountry: $("#ShipCountry").val()
+        }
+
+        $.ajax({
+            dataType: "json",
+            type: "POST",
+            url: "@Url.Action("SalvarDados", "Order")",
+            data: { order: order },
+            success: function (data) {
+                if (data != null) {
+                    $("#OrderID").val(data.OrderID);
+                    alert('Registro Criado com Sucesso');
+                }
+                else
+                    alert(retorno);
+            },
+            error: function (retorno) {
+                alert("erro");
+            }
+        });
+    }
+
+    function ValidarCPF(cpf) {
+
+        cpf = cpf.replace('.', ''); cpf = cpf.replace('.', ''); cpf = cpf.replace('-', ''); var numeros, digitos, soma, i, resultado, digitos_iguais; digitos_iguais = 1; if (cpf.length < 11)
+            return false; for (i = 0; i < cpf.length - 1; i++)
+                if (cpf.charAt(i) != cpf.charAt(i + 1))
+                { digitos_iguais = 0; break; }
+        if (!digitos_iguais) {
+            numeros = cpf.substring(0, 9); digitos = cpf.substring(9); soma = 0; for (i = 10; i > 1; i--)
+                soma += numeros.charAt(10 - i) * i; resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(0))
+                    return false; numeros = cpf.substring(0, 10); soma = 0; for (i = 11; i > 1; i--)
+                        soma += numeros.charAt(11 - i) * i; resultado = soma % 11 < 2 ? 0 : 11 - soma % 11; if (resultado != digitos.charAt(1))
+                            return false; return true;
+        }
+        else
+            return false;
+
+    }
+
+    function PreencherFuncionarios() {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: "@Url.Action("ObterEmployees","Employee")",
+            success: function (data) {
+                var options = '<option value=""></option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].EmployeeID
+                        + '">' + data[i].FirstName + '</option>';
+                }
+                $('#EmployeeID').html(options);
+            },
+            error: function (data) {
+                alert('deu erro');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        PreencherFuncionarios();
+        AutoCompleteCustomers();
+
+        $("#RequiredDate").datepicker();
+    });
+
+</script>

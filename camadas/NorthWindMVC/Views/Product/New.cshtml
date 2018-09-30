@@ -1,0 +1,29 @@
+﻿@using NorthWindMVC.Models
+@model Product
+@{
+    // Layout = null;
+    var Suppliers = (List<Supplier>)ViewBag.Suppliers;
+    var Categories = (List<Category>)ViewBag.Categories;  
+}
+
+<label>@ViewBag.Message</label>
+
+<form id="frm" method="post" action="/Product/Save">
+    <table>
+        <tr>
+            <td><label>Category</label></td>
+            <td><select id="CategoryID" name="CategoryID">
+                <option></option>
+                @{
+                    foreach (var item in Categories)
+                    {
+                        <option @(Model.CategoryID== item.CategoryID? "selected" : "")
+                                value="@item.CategoryID">
+                                @item.CategoryName
+                       </option>
+                    }
+                }
+        </select>
+    </table>
+    <input type="submit" value="Enviar Dados" />
+</form>

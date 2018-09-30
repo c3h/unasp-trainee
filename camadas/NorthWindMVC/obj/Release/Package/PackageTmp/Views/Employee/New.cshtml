@@ -1,0 +1,64 @@
+﻿@using NorthWindMVC.Models
+@model Employee
+@{
+    // Layout = null;
+    var Chefes = (List<Employee>) ViewBag.Chefes;    
+}
+
+<label>@ViewBag.Message</label>
+
+<form id="frm" method="post" action="/Employee/Save">
+    <table>
+        <tr>
+            <td><label>Employee ID</label></td>
+            <td><input readonly type="text" id="EmployeeID" name="EmployeeID" 
+                       value="@Model.EmployeeID" /></td>
+        </tr>
+        <tr>
+            <td><label>Last Name</label></td>
+            <td><input value="@Model.LastName" maxlength="20" placeholder="Digite aqui o Last Name" required type="text" id="LastName" name="LastName" /></td>
+        </tr>
+        <tr>
+            <td><label>First Name</label></td>
+            <td><input value="@Model.FirstName" maxlength="10" required type="text" id="FirstName" name="FirstName" /></td>
+        </tr>
+        <tr>
+            <td><label>Birth Date</label></td>
+            <td><input value="@Model.BirthDate" type="text" id="BirthDate" name="BirthDate" /></td>
+        </tr>
+        <tr>
+            <td><label>Notes</label></td>
+            <td> <textarea name="Notes" id="Notes"
+          maxlength="200">@Model.Notes</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Adventista</label></td>
+            <td>
+                <input @(Model.Adventista == true ? "checked" : "") type="checkbox" id="Adventista" name="Adventista" value="true"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Chefe</label></td>
+            <td><select id="ReportsTo" name="ReportsTo">
+               <option></option>
+                @{
+                    foreach (var item in Chefes)
+                    {
+                        <option @(Model.ReportsTo == item.EmployeeID ? "selected" : "") 
+                            value="@item.EmployeeID">@item.LastName</option>
+                    }
+                }
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Enviar Dados" />
+</form>
+<br/>
+<form id="frmDel" method="post" action="/Employee/Delete">
+    <input type="hidden" id="EmployeeID" name="EmployeeID"
+           value="@Model.EmployeeID" />
+    <input type="submit" value="Excluir" />
+</form>

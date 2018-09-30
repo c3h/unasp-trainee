@@ -1,0 +1,57 @@
+﻿<table>
+    <tr>
+        <td>Categorias</td>
+        <td><select id="CategoryID" onchange="PreencherProdutos();">
+            <option></option>
+            <option>Categoria 1</option>
+            </select></td>
+    </tr> 
+    <tr>
+        <td>Produtos</td>
+        <td><select id="ProductID">
+                <option></option>
+            </select></td>
+    </tr>
+</table>
+
+<script>
+    // Neste bloco, normalmente nós iniciamos a página
+    $(document).ready(function () {
+        PreencherCategorias();
+    });
+
+    // Preencher um Select com os Chefes
+    function PreencherCategorias() {
+        $.getJSON("@Url.Action("ListCategories", "Category")",
+            null, function (data) {
+
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="'
+                        + data[i].CategoryID + '">'
+                        + data[i].CategoryName
+                        + '</option>';
+                }
+                $('#CategoryID').html(options);
+
+
+
+            });
+    }
+
+    // Preencher um Select com os Chefes
+    function PreencherProdutos() {
+        $.getJSON("@Url.Action("ListProducts", "Product")?CategoryID=" + $('#CategoryID').val(),
+            null, function (data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="'
+                        + data[i].ProductID + '">'
+                        + data[i].ProductName
+                        + '</option>';
+                }
+                $('#ProductID').html(options);
+            });
+    }
+
+</script>
