@@ -1,0 +1,53 @@
+﻿<br />
+<table>
+    <tr>
+        <td><label>Nome:</label></td>
+
+        <td><input type="text" id="CompanyName" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><button onclick="PreencherGrid();">Pesquisar</button></td>
+    </tr>
+    <tr>
+        <td colspan="2"><button onclick="Novo();">Novo</button></td>
+    </tr>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Companhia</th>
+            <th>Contato</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableSupplier"></tbody>
+</table>
+
+<script>
+    //Neste bloco, normalmente nós iniciamos á página
+    $(document).ready(function () {
+        PreencherGrid();
+    });
+
+    //Preencher um Select com os Chefes
+   function PreencherGrid () {
+       $.getJSON("@Url.Action("ListSuppliersJson","Supplier")?CompanyName=" + $("#CompanyName").val(),
+                    null, function (data) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<tr>'
+                                + '<td>' + data[i].SupplierID + '</td>'
+                                + '<td>' + data[i].CompanyName + '</td>'
+                                + '<td>' + data[i].ContactName + '</td>'
+                                + '<td>' + '<a href=NewJavaScript/' + data[i].SupplierID + '> Editar </a>' + '</td>'
+                                + '</tr>';
+                        }
+                        $('#tableSupplier').html(html);
+                    });
+   }
+    function Novo() {
+        location.href = "NewJavaScript/";
+    }
+</script>

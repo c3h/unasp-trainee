@@ -1,0 +1,110 @@
+﻿@using NorthWindMVC.Models
+@model Product
+@{
+    //Layout = null;
+    var Fornecedores = (List<Supplier>) ViewBag.Fornecedores;
+    var Categorias = (List<Category>) ViewBag.Categorias;
+}
+
+<label>@ViewBag.Message</label>
+
+<form id="frm" method="post" action="/Product/Save">
+    <table>
+        <tr>
+            <td><label>Product ID</label></td>
+            <td>
+                <input readonly type="text" id="ProductID" name="ProductID"
+                       value="@Model.ProductID" />
+            </td>
+        </tr>
+        <tr>
+            <td><label>Product Name</label></td>
+            <td><input value="@Model.ProductName" maxlength="40" placeholder="Type here Product Name" required type="text" id="ProductName" name="ProductName" /></td>
+        </tr>
+
+        <tr>
+            <td><label>Supplier ID</label></td>
+            <td>
+                <select id="SupplierID" name="SupplierID">
+                    <option></option>
+                    @{
+                        foreach (var item in Fornecedores)
+                        {
+                            <option @(Model.SupplierID == item.SupplierID ? "selected" : "")
+                                    value="@item.SupplierID">@item.CompanyName
+                            </option>
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+        
+        <tr>
+        <td><label>Category ID</label></td>
+        <td>
+            <select id="CategoryID" name="CategoryID">
+                <option></option>
+                @{
+                    foreach (var item in Categorias)
+                    {
+                        <option @(Model.CategoryID == item.CategoryID ? "selected" : "")
+                                value="@item.CategoryID">@item.CategoryName
+                        </option>
+                    }
+                }
+            </select>
+        </td>
+        </tr>
+
+        <tr>
+            <td><label>Quantity Per Unit</label></td>
+            <td>
+                <input readonly type="text" id="QuantityPerUnit" name="QuantityPerUnit"
+                       value="@Model.QuantityPerUnit" />
+            </td>
+        </tr>
+        <tr>
+            <td><label>Unit Price</label></td>
+            <td>
+                <input readonly type="text" id="UnitPrice" name="UnitPrice"
+                       value="@Model.UnitPrice" />
+            </td>
+        </tr> 
+        <tr>
+            <td><label>Units in Stock</label></td>
+            <td>
+                <input readonly type="text" id="UnitsInStock" name="UnitsInStock"
+                       value="@Model.UnitsInStock" />
+            </td>
+        </tr> 
+        <tr>
+            <td><label>Units on Order</label></td>
+            <td>
+                <input readonly type="text" id="UnitsOnOrder" name="UnitsOnOrder"
+                       value="@Model.UnitsOnOrder" />
+            </td>
+        </tr>   
+        <tr>
+            <td><label>Reorder Level</label></td>
+            <td>
+                <input readonly type="text" id="ReorderLevel" name="ReorderLevel"
+                       value="@Model.ReorderLevel" />
+            </td>
+        </tr>   
+        
+        <tr>
+                <td><label>Discontinued</label></td>
+                <td>
+                    <input @(Model.Discontinued == true ? "checked" : "") type="checkbox" id="Discontinued" name="Discontinued" value="true" />
+                </td>
+        </tr>
+                    
+        </table>
+        <input type="submit" value="Enviar Dados" />
+    </form>
+    <br />
+    <form id="frmDel" method="post" action="/Product/Delete">
+        <input type="hidden" id="ProductID" name="ProductID"
+               value="@Model.ProductID" />
+        <input type="submit" value="Excluir" />
+    </form>

@@ -1,0 +1,166 @@
+﻿@using NorthWindMVC.Models
+@model Supplier
+<br />
+<table>
+
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.SupplierID)
+        </td>
+
+        <td>
+            <input id="SupplierID" name="SupplierID" type="text" value="@Model.SupplierID" onKeyPress="return SoNumero(window.event.keyCode,this)" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td><label>Company Name</label></td>
+        <td><input value="@Model.CompanyName" maxlength="30" placeholder="Digite aqui o Company Name" required type="text" id="CompanyName" name="CompanyName" /></td>
+    </tr>
+    <tr>
+        <td><label>Contact Name</label></td>
+        <td><input value="@Model.ContactName" maxlength="10" required type="text" id="ContactName" name="ContactName" /></td>
+    </tr>
+    <tr>
+        <td><label>Contact Title</label></td>
+        <td><input value="@Model.ContactTitle" type="text" id="ContactTitle" name="ContactTitle" /></td>
+    </tr>
+    <tr>
+        <td><label>Address</label></td>
+        <td><input value="@Model.Address" type="text" id="Address" name="Address" /></td>
+    </tr>
+    
+    <tr>
+        <td><label>City</label></td>
+        <td><input value="@Model.City" type="text" id="City" name="City" /></td>
+    </tr>
+    <tr>
+        <td><label>Region</label></td>
+        <td><input value="@Model.Region" type="text" id="Region" name="Region" /></td>
+    </tr>
+    
+    <tr>
+        <td><label>Postal Code</label></td>
+        <td><input value="@Model.PostalCode" type="text" id="PostalCode" name="PostalCode" /></td>
+    </tr>
+    <tr>
+        <td><label>Country</label></td>
+        <td><input value="@Model.Country" type="text" id="Country" name="Country" /></td>
+    </tr>
+    <tr>
+        <td><label>Phone</label></td>
+        <td><input value="@Model.Phone" type="text" id="Phone" name="Phone" /></td>
+    </tr>
+    <tr>
+        <td><label>Fax</label></td>
+        <td><input value="@Model.Fax" type="text" id="Fax" name="Fax" /></td>
+    </tr>
+    <tr>
+        <td><label>HomePage</label></td>
+        <td><input value="@Model.HomePage" type="text" id="HomePage" name="HomePage" /></td>
+    </tr>
+    <tr>
+        <td>
+            <button onclick="SalvarDados();">Salvar</button>
+            <button onclick="ExcluirRegistro();">Excluir</button>
+        </td>
+    </tr>
+</table>
+
+
+<script language="JavaScript">             
+       
+    $(function () {
+        $("#Country").autocomplete({
+            minLength: 1,
+            source: function (request,response) {
+                $.getJSON("@Url.Action("ListCountries","Supplier")"
+                    + "?id=" + $("#Country").val(),
+                    null, function (data) {
+                    response(data);
+                });
+            }
+
+        })
+    });
+
+    function SalvarDados() {
+        //enviar dados para serem salvos
+        var supplier = {
+            SupplierID: $('#SupplierID').val(),
+            CompanyName: $('#CompanyName').val(),
+            ContactName: $('#ContactName').val(),
+            ContactTitle: $('#ContactTitle').val(),            
+            Address: $('#Address').val(),
+            City: $('#City').val(),
+            Region: $('#Region').val(),
+            PostalCode: $('#PostalCode').val(),
+            Country: $('#Country').val(),
+            Phone: $('#Phone').val(),
+            Fax: $('#Fax').val(),
+            HomePage: $('#HomePage').val()            
+        };
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("SaveJson","Supplier")',
+            data: { s: supplier },
+            success: function (data) {
+                if (data.success) {
+                    alert('O Registro foi salvo com sucesso, usando o Código: ' + data.Data.SupplierID);
+                    LimparDados();
+                }
+                else{
+                    alert(data.message);
+                }
+            },
+            error: function(data){
+                alert(data.responseText);
+            }
+        });
+
+    }
+
+    function ExcluirRegistro() {
+        var supplier = $('#SupplierID').val();
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("DeleteJson","Supplier")',
+            data: { SupplierID: supplier },
+            success: function (data) {
+                if (data.success) {
+                    alert('O Registro foi excluído com sucesso, usando o Código: ' + data.Data.SupplierID);
+                    LimparDados();
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function LimparDados() {
+        //Limpe todos os dados da tela
+        $(':input').val('');
+
+    }
+
+    function SoNumero(keypress, objeto) {
+        campo = eval(objeto);
+        digitado = eval(keypress);
+        if (digitado == 13) {
+            document.form.submit();
+            return false;
+        }
+        if (digitado != 48 && digitado != 49 && digitado != 50 && digitado != 51 && digitado != 52 && digitado != 53 && digitado != 54 && digitado != 55 && digitado != 56 && digitado != 57) {
+            return false;
+        }
+        return true;
+    }    
+</script>

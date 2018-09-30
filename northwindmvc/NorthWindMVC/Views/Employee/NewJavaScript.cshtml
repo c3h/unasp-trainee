@@ -1,0 +1,215 @@
+﻿@using NorthWindMVC.Models
+@model Employee
+@{ 
+    //Layout = null;
+}
+<br />
+    <table>
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.EmployeeID)                
+            </td>
+
+            <td>
+                <input id="EmployeeID" name="EmployeeID" type="text" value="@Model.EmployeeID" onKeyPress="return SoNumero(window.event.keyCode,this)"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Last Name</label></td>
+            <td><input value="@Model.LastName" maxlength="20" placeholder="Digite aqui o Last Name" required type="text" id="LastName" name="LastName" /></td>
+        </tr>
+        <tr>
+            <td><label>First Name</label></td>
+            <td><input value="@Model.FirstName" maxlength="10" required type="text" id="FirstName" name="FirstName" /></td>
+        </tr>
+        <tr>
+            <td><label>Title</label></td>
+            <td><input value="@Model.Title" type="text" id="Title" name="Title" /></td>
+        </tr>
+        <tr>
+            <td><label>TitleOfCourtesy</label></td>
+            <td><input value="@Model.TitleOfCourtesy" type="text" id="TitleOfCourtesy" name="TitlteOfCourtesy" /></td>
+        </tr>
+        <tr>
+            <td><label>Birth Date</label></td>
+            <td>
+                @Html.EditorFor(model => model.BirthDate)
+            </td>
+            
+        </tr>
+        <tr>
+            <td><label>Hire Date</label></td>
+            <td><input value="@Model.HireDate" type="text" id="HireDate" name="HireDate" /></td>
+        </tr>
+        <tr>
+            <td><label>Address</label></td>
+            <td><input value="@Model.Address" type="text" id="Address" name="Address" /></td>
+        </tr>
+        <tr>
+            <td><label>City</label></td>
+            <td><input value="@Model.City" type="text" id="City" name="City" /></td>
+        </tr>
+        <tr>
+            <td><label>Region</label></td>
+            <td><input value="@Model.Region" type="text" id="Region" name="Region" /></td>
+        </tr>
+        <tr>
+            <td><label>Postal Code</label></td>
+            <td><input value="@Model.BirthDate" type="text" id="BirthDate" name="BirthDate" /></td>
+        </tr>
+        <tr>
+            <td><label>Country</label></td>
+            <td><input value="@Model.Country" type="text" id="Country" name="Country" /></td>
+        </tr>
+        <tr>
+            <td><label>HomePhone</label></td>
+            <td><input value="@Model.HomePhone" type="text" id="HomePhone" name="HomePhone" /></td>
+        </tr>
+        <tr>
+            <td><label>Extension</label></td>
+            <td><input value="@Model.Extension" type="text" id="Extension" name="Extension" /></td>
+        </tr>
+        <tr>
+            <td><label>Notes</label></td>
+            <td> <textarea name="Notes" id="Notes"
+          maxlength="200">@Model.Notes</textarea>
+            </td>
+        </tr>
+                <tr>
+            <td><label>Adventista</label></td>
+            <td>
+                <input @(Model.Adventista == true ? "checked" : "") type="checkbox" id="Adventista" name="Adventista" value="true"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Reports To</label></td>
+            <td><select id="ReportsTo" name="ReportsTo">                            
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="SalvarDados();">Salvar</button>
+                <button onclick="ExcluirRegistro();">Excluir</button>
+            </td>
+        </tr>
+    </table>
+    
+<br/>
+
+<script language="JavaScript">
+
+    //Preencher um Select com os Chefes
+    $(function () {
+        $.getJSON("@Url.Action("ListEmployees","Employee")",
+                    null, function (data) {
+                        var options = '<option/>';
+                        for (var i = 0; i < data.length; i++) {
+                            options += '<option value="'
+                                + data[i].EmployeeID + '">'
+                                + data[i].LastName
+                                + '</option>';
+                        }
+                        $('#ReportsTo').html(options);
+                        $('#ReportsTo').val('@Model.ReportsTo');
+                    })
+    });
+
+    $(function () {
+        $("#BirthDate").datepicker();
+    });
+
+    $(function () {
+        $("#Country").autocomplete({
+            minLength: 1,
+            source: function (request,response) {
+                $.getJSON("@Url.Action("ListCountries","Customer")"
+                    + "?id=" + $("#Country").val(),
+                    null, function (data) {
+                    response(data);
+
+                });
+            }
+
+        })
+    });
+
+    function SalvarDados() {
+        //enviar dados para serem salvos
+        var employee = {
+            EmployeeID: $('#EmployeeID').val(),
+            LastName: $('#LastName').val(),
+            FirstName: $('#FirstName').val(),
+            Title: $('#Title').val(),
+            TitleOfCourtesy: $('#TitleOfCourtesy').val(),
+            BirthDate: $('#BirthDate').val(),
+            HireDate: $('#HireDate').val(),
+            Address: $('#Address').val(),
+            City: $('#City').val(),
+            Region: $('#Region').val(),
+            PostalCode: $('#PostalCode').val(),
+            Country: $('#Country').val(),
+            HomePhone: $('#HomePhone').val(),
+            Extension: $('#Extension').val(),
+            ReportsTo: $('#ReportsTo').val(),
+            Notes: $('#Notes').val(),
+            Adventista: $('#Adventista').val()
+        };
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("SaveJson","Employee")',
+            data: { e: employee },
+            success: function (data) {
+                if (data.success) {
+                    alert('O Registro foi salvo com sucesso, usando o Código: ' + data.Data.EmployeeID);
+                    LimparDados();
+                }
+                else{
+                    alert(data.message);
+                }
+            },
+            error: function(data){
+                alert(data.responseText);
+            }              
+        });
+        
+    }
+
+    function ExcluirRegistro() {
+        var employee = $('#EmployeeID').val();
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("DeleteJson","Employee")',
+            data: { EmployeeID: employee },
+            success: function (data) {
+                if (data.success) {
+                    alert('O Registro foi excluído com sucesso, usando o Código: ' + data.Data.EmployeeID);
+                    LimparDados();
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function LimparDados() {
+        //Limpe todos os dados da tela
+        $(':input').val('');
+        
+    }
+    
+</script>
+
+
+

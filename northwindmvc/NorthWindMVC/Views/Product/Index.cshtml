@@ -1,0 +1,32 @@
+﻿@using NorthWindMVC.Models
+@model List<Product>
+@{
+    //Layout = null;
+    ViewBag.Title = "Produtos";
+}
+<a href="/Product/New">Novo Produto</a>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Supplier</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    @{foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductID</td>
+                <td>@item.ProductName</td>
+                <td>@(item.Supplier != null ? item.Supplier.CompanyName : "")</td>
+                <td>@(item.Category != null ? item.Category.CategoryName : "")</td>
+                @*Crie um hiperlink para o Controller
+                    Employee Método Edit passando como
+                    parametro id = 1 para todas as linhas*@
+                <td><a href="\Product\Edit?id=@(item.ProductID)">Editar</a></td>
+            </tr>
+        }
+    }
+</table>
